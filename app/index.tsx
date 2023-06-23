@@ -1,7 +1,7 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import InvoiceBar from "./components/InvoiceBar";
 import InvoiceCard from "./components/InvoiceCard";
-import fakeData from './constants/data.json'
+import fakeData from './data/data.json'
 import React from "react";
 import InvoiceEmpty from "./components/InvoiceEmpty";
 
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
     flex: 1, gap: 32
   },
   listContainer: {
-    paddingLeft: 24, paddingRight: 24, gap: 16
+    paddingLeft: 24, paddingRight: 24, gap: 16, paddingBottom: 32
   }
 })

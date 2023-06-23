@@ -1,5 +1,7 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
+import React from 'react'
+import { useRouter } from 'expo-router'
+import InvoiceStatus from './InvoiceStatus'
 
 type Props = {
   id: string
@@ -11,19 +13,16 @@ type Props = {
 
 const InvoiceCard = (props: Props) => {
   const { id, clientName, paymentDue, total, status } = props
-  const [bgColor, setBgColor] = useState('')
-  const [color, setColor] = useState('')
+  const router = useRouter()
 
-  useEffect(() => {
-    if (status === 'paid') { setBgColor('#F3FDFA'); setColor('#33D69F') }
-    else if (status === 'pending') { setBgColor('#FFF9F0'); setColor('#FF8F00') }
-    else if (status === 'draft') { setBgColor('#F4F4F5'); setColor('#373B53') }
-  }, [])
+  const viewInvoice = () => {
+    router.push({ pathname: '/viewInvoice', params: {id: id}})
+  }
   
   return (
-    <View style={styles.invoiceCard}>
+    <Pressable style={styles.invoiceCard} onPress={viewInvoice}>
       <View style={styles.userIDContainer}>
-        <Text style={styles.IDText}>{id}</Text>
+        <Text style={styles.IDText}><Text style={{ color: '#7E88C3'}}>#</Text>{id}</Text>
         <Text style={styles.userText}>{clientName}</Text>
       </View>
       <View style={styles.invoiceInfoContainer}>
@@ -31,12 +30,9 @@ const InvoiceCard = (props: Props) => {
           <Text style={styles.dueDateText}>Due {paymentDue}</Text>
           <Text style={styles.invoiceAmountText}>£ {total}</Text>
         </View>
-        <View style={[styles.invoiceStatusContainer, { backgroundColor: bgColor }]}>
-          <View style={[styles.circle, {backgroundColor: color}]} />
-          <Text style={[styles.statusText, { color: color }]}>{status}</Text>
-        </View>
+        <InvoiceStatus status={status} />
       </View>
-    </View>
+    </Pressable>
   )
 }
 
@@ -64,13 +60,5 @@ const styles = StyleSheet.create({
   invoiceAmountText: {
     color: '#0C0E16', fontSize: 15, fontWeight: '700'
   },
-  invoiceStatusContainer: {
-    width: 104, height: 40, borderRadius: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8
-  },
-  circle: {
-    width: 8, height: 8, borderRadius: 4
-  },
-  statusText: {
-    fontWeight: '700', fontSize: 15, textTransform: 'capitalize'
-  }
+  
 })

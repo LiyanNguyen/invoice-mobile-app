@@ -1,14 +1,15 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { Slot } from 'expo-router'
 import TopNav from './components/TopNav'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Layout = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TopNav/>
       <Slot/>
-    </View>
+    </SafeAreaView>
   )
 }
 
