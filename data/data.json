@@ -1,23 +1,25 @@
 [
   {
     "id": "RT3080",
-    "createdAt": "2021-08-18",
-    "paymentDue": "2021-08-19",
+    "created_at": "2021-08-18",
+    "payment_due": "2021-08-19",
     "description": "Re-branding",
-    "paymentTerms": 1,
-    "clientName": "Jensen Huang",
-    "clientEmail": "jensenh@mail.com",
+    "payment_terms": 1,
     "status": "paid",
-    "senderAddress": {
+    "sender": {
+      "name": "John Harris",
+      "email": "johnharris@mail.com",
       "street": "19 Union Terrace",
       "city": "London",
-      "postCode": "E1 3EZ",
+      "post_code": "E1 3EZ",
       "country": "United Kingdom"
     },
-    "clientAddress": {
+    "client": {
+      "name": "Jensen Huang",
+      "email": "jensenh@mail.com",
       "street": "106 Kendell Street",
       "city": "Sharrington",
-      "postCode": "NR24 5WQ",
+      "post_code": "NR24 5WQ",
       "country": "United Kingdom"
     },
     "items": [
@@ -28,27 +30,29 @@
         "total": 1800.90
       }
     ],
-    "total": 1800.90
+    "invoice_total": 1800.90
   },
   {
     "id": "XM9141",
-    "createdAt": "2021-08-21",
-    "paymentDue": "2021-09-20",
+    "created_at": "2021-08-21",
+    "payment_due": "2021-09-20",
     "description": "Graphic Design",
-    "paymentTerms": 30,
-    "clientName": "Alex Grim",
-    "clientEmail": "alexgrim@mail.com",
+    "payment_terms": 30,
     "status": "pending",
-    "senderAddress": {
+    "sender": {
+      "name": "John Harris",
+      "email": "johnharris@mail.com",
       "street": "19 Union Terrace",
       "city": "London",
-      "postCode": "E1 3EZ",
+      "post_code": "E1 3EZ",
       "country": "United Kingdom"
     },
-    "clientAddress": {
+    "client": {
+      "name": "Alex Grim",
+      "email": "alexgrim@mail.com",
       "street": "84 Church Way",
       "city": "Bradford",
-      "postCode": "BD1 9PB",
+      "post_code": "BD1 9PB",
       "country": "United Kingdom"
     },
     "items": [
@@ -65,27 +69,29 @@
         "total": 400.00
       }
     ],
-    "total": 556.00
+    "invoice_total": 556.00
   },
   {
     "id": "RG0314",
-    "createdAt": "2021-09-24",
-    "paymentDue": "2021-10-01",
+    "created_at": "2021-09-24",
+    "payment_due": "2021-10-01",
     "description": "Website Redesign",
-    "paymentTerms": 7,
-    "clientName": "John Morrison",
-    "clientEmail": "jm@myco.com",
+    "payment_terms": 7,
     "status": "paid",
-    "senderAddress": {
+    "sender": {
+      "name": "John Harris",
+      "email": "johnharris@mail.com",
       "street": "19 Union Terrace",
       "city": "London",
-      "postCode": "E1 3EZ",
+      "post_code": "E1 3EZ",
       "country": "United Kingdom"
     },
-    "clientAddress": {
+    "client": {
+      "name": "John Morrison",
+      "email": "jm@myco.com",
       "street": "79 Dover Road",
       "city": "Westhall",
-      "postCode": "IP19 3PF",
+      "post_code": "IP19 3PF",
       "country": "United Kingdom"
     },
     "items": [
@@ -96,27 +102,29 @@
         "total": 14002.33
       }
     ],
-    "total": 14002.33
+    "invoice_total": 14002.33
   },
   {
     "id": "RT2080",
-    "createdAt": "2021-10-11",
-    "paymentDue": "2021-10-12",
+    "created_at": "2021-10-11",
+    "payment_due": "2021-10-12",
     "description": "Logo Concept",
-    "paymentTerms": 1,
-    "clientName": "Alysa Werner",
-    "clientEmail": "alysa@email.co.uk",
+    "payment_terms": 1,
     "status": "pending",
-    "senderAddress": {
+    "sender": {
+      "name": "John Harris",
+      "email": "johnharris@mail.com",
       "street": "19 Union Terrace",
       "city": "London",
-      "postCode": "E1 3EZ",
+      "post_code": "E1 3EZ",
       "country": "United Kingdom"
     },
-    "clientAddress": {
+    "client": {
+      "name": "Alysa Werner",
+      "email": "alysa@email.co.uk",
       "street": "63 Warwick Road",
       "city": "Carlisle",
-      "postCode": "CA20 2TG",
+      "post_code": "CA20 2TG",
       "country": "United Kingdom"
     },
     "items": [
@@ -127,27 +135,29 @@
         "total": 102.04
       }
     ],
-    "total": 102.04
+    "invoice_total": 102.04
   },
   {
     "id": "AA1449",
-    "createdAt": "2021-10-7",
-    "paymentDue": "2021-10-14",
+    "created_at": "2021-10-7",
+    "payment_due": "2021-10-14",
     "description": "Re-branding",
-    "paymentTerms": 7,
-    "clientName": "Mellisa Clarke",
-    "clientEmail": "mellisa.clarke@example.com",
+    "payment_terms": 7,
     "status": "pending",
-    "senderAddress": {
+    "sender": {
+      "name": "John Harris",
+      "email": "johnharris@mail.com",
       "street": "19 Union Terrace",
       "city": "London",
-      "postCode": "E1 3EZ",
+      "post_code": "E1 3EZ",
       "country": "United Kingdom"
     },
-    "clientAddress": {
+    "client": {
+      "name": "Mellisa Clarke",
+      "email": "mellisa.clarke@example.com",
       "street": "46 Abbey Row",
       "city": "Cambridge",
-      "postCode": "CB5 6EG",
+      "post_code": "CB5 6EG",
       "country": "United Kingdom"
     },
     "items": [
@@ -164,27 +174,29 @@
         "total": 2500.00
       }
     ],
-    "total": 4032.33
+    "invoice_total": 4032.33
   },
   {
     "id": "TY9141",
-    "createdAt": "2021-10-01",
-    "paymentDue": "2021-10-31",
+    "created_at": "2021-10-01",
+    "payment_due": "2021-10-31",
     "description": "Landing Page Design",
-    "paymentTerms": 30,
-    "clientName": "Thomas Wayne",
-    "clientEmail": "thomas@dc.com",
+    "payment_terms": 30,
     "status": "pending",
-    "senderAddress": {
+    "sender": {
+      "name": "John Harris",
+      "email": "johnharris@mail.com",
       "street": "19 Union Terrace",
       "city": "London",
-      "postCode": "E1 3EZ",
+      "post_code": "E1 3EZ",
       "country": "United Kingdom"
     },
-    "clientAddress": {
+    "client": {
+      "name": "Thomas Wayne",
+      "email": "thomas@dc.com",
       "street": "3964  Queens Lane",
       "city": "Gotham",
-      "postCode": "60457",
+      "post_code": "60457",
       "country": "United States of America"
     },
     "items": [
@@ -195,27 +207,29 @@
         "total": 6155.91
       }
     ],
-    "total": 6155.91
+    "invoice_total": 6155.91
   },
   {
     "id": "FV2353",
-    "createdAt": "2021-11-05",
-    "paymentDue": "2021-11-12",
+    "created_at": "2021-11-05",
+    "payment_due": "2021-11-12",
     "description": "Logo Re-design",
-    "paymentTerms": 7,
-    "clientName": "Anita Wainwright",
-    "clientEmail": "",
+    "payment_terms": 7,
     "status": "draft",
-    "senderAddress": {
+    "sender": {
+      "name": "John Harris",
+      "email": "johnharris@mail.com",
       "street": "19 Union Terrace",
       "city": "London",
-      "postCode": "E1 3EZ",
+      "post_code": "E1 3EZ",
       "country": "United Kingdom"
     },
-    "clientAddress": {
+    "client": {
+      "name": "Anita Wainwright",
+      "email": "",
       "street": "",
       "city": "",
-      "postCode": "",
+      "post_code": "",
       "country": ""
     },
     "items": [
@@ -226,6 +240,6 @@
         "total": 3102.04
       }
     ],
-    "total": 3102.04
+    "invoice_total": 3102.04
   }
 ]

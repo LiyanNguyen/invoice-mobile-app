@@ -27,7 +27,7 @@ const Home = () => {
       <FlatList
         contentContainerStyle={styles.listContainer}
         data={fakeData}
-        renderItem={({ item }) => <InvoiceCard id={item.id} clientName={item.clientName} paymentDue={item.paymentDue} total={item.total} status={item.status} />}
+        renderItem={({ item }) => <InvoiceCard id={item.id} clientName={item.client.name} paymentDue={item.payment_due} total={item.invoice_total} status={item.status} />}
         keyExtractor={item => item.id}
         ListEmptyComponent={InvoiceEmpty}
       />
