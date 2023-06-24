@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
 import { Slot } from 'expo-router'
-import TopNav from './components/TopNav'
+import TopNav from '../components/TopNav'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Layout = () => {

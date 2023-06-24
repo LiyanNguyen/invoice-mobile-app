@@ -23,10 +23,10 @@ const InvoiceBar = (props: Props) => {
       </View>
       <Pressable style={styles.filterButton} onPress={openFilters}>
         <Text style={styles.filterText}>Filter</Text>
-        <Image style={styles.arrowDownIcon} source={require('../images/icon-arrow-down.svg')} />
+        <Image style={styles.arrowDownIcon} source={require('../assets/images/icon-arrow-down.svg')} />
         <Pressable style={styles.newButton} onPress={addNew}>
           <View style={styles.whiteCircle}>
-            <Image style={styles.plusIcon} source={require('../images/icon-plus.svg')} />
+            <Image style={styles.plusIcon} source={require('../assets/images/icon-plus.svg')} />
           </View>
           <Text style={styles.newText}>New</Text>
         </Pressable>

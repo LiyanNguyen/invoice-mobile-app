@@ -6,12 +6,12 @@ const TopNav = () => {
   return (
     <View style={styles.topNav}>
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require('../images/logo.svg')} contentFit='contain' />
+        <Image style={styles.logo} source={require('../assets/images/logo.svg')} contentFit='contain' />
       </View>
       <View style={styles.topNav_RightSide}>
-        <Image source={require('../images/icon-moon.svg')} />
+        <Image source={require('../assets/images/icon-moon.svg')} />
         <View style={styles.divider} />
-        <Image style={styles.userAvatar} source={require('../images/image-avatar.jpg')} />
+        <Image style={styles.userAvatar} source={require('../assets/images/image-avatar.jpg')} />
       </View>
     </View>
   )

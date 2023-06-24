@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import InvoiceStatus from '../components/InvoiceStatus';
+import InvoiceStatus from '../../components/InvoiceStatus';
 
 const viewInvoice = () => {
   const router = useRouter();
@@ -13,7 +13,7 @@ const viewInvoice = () => {
     <>
       <View style={styles.container}>
         <View style={styles.goBackContainer}>
-          <Image style={styles.arrowLeftIcon} source={require('../images/icon-arrow-left.svg')}/>
+          <Image style={styles.arrowLeftIcon} source={require('../../assets/images/icon-arrow-left.svg')}/>
           <Text onPress={() => router.push('/')} style={styles.blackText}>Go Back</Text>
         </View>
         <ScrollView style={styles.infoCardsContainer}>

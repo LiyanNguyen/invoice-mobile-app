@@ -1,9 +1,9 @@
 import { View, StyleSheet, FlatList } from "react-native";
-import InvoiceBar from "./components/InvoiceBar";
-import InvoiceCard from "./components/InvoiceCard";
-import fakeData from './data/data.json'
+import InvoiceBar from "../components/InvoiceBar";
+import InvoiceCard from "../components/InvoiceCard";
+import fakeData from '../data/data.json'
 import React from "react";
-import InvoiceEmpty from "./components/InvoiceEmpty";
+import InvoiceEmpty from "../components/InvoiceEmpty";
 
 const Home = () => {
   return (

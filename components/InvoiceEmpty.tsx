@@ -5,7 +5,7 @@ import { Image } from 'expo-image'
 const InvoiceEmpty = () => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require('../images/illustration-empty.svg')} contentFit='contain' />
+      <Image style={styles.image} source={require('../assets/images/illustration-empty.svg')} contentFit='contain' />
       <Text style={styles.mainText}>There is nothing here</Text>
       <Text style={styles.subText }>Create an invoice by clicking the <Text style={{fontWeight: '700'}}>New</Text> button and get started</Text>
     </View>
