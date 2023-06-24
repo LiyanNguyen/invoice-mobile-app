@@ -1,12 +1,29 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import React, { useState } from 'react'
 import InvoiceStatus from '../../components/InvoiceStatus'
 import BackToHomeButton from '../../components/BackToHomeButton'
+import DeleteModal from '../../components/DeleteModal'
+import { useLocalSearchParams } from 'expo-router'
 
 const viewInvoice = () => {
   const params = useLocalSearchParams()
-  const { id } = params //id used to fetch GET entire data about a specific invoice
+  const { id } = params //id used to fetch GET entire data about a specific invoice and POST to mark as paid
+  const [showModal, setShowModal] = useState<boolean>(false)
+
+  const editInvoice = () => {
+    console.log('Edit Invoice')
+    // route to editinvoice page
+  }
+
+  const openDeleteModal = () => {
+    setShowModal(true)
+    console.log('Edit Invoice')
+  }
+
+  const markInvoicePaid = () => {
+    // use id to POST to backend as 'paid' status
+    console.log('Invoice Paid', id)
+  }
   
   return (
     <>
@@ -79,13 +96,14 @@ const viewInvoice = () => {
         <Pressable style={styles.editButton}>
           <Text style={styles.subText2}>Edit</Text>
         </Pressable>
-        <Pressable style={styles.deleteButton}>
+        <Pressable style={styles.deleteButton} onPress={openDeleteModal}>
           <Text style={styles.whiteText}>Delete</Text>
         </Pressable>
-        <Pressable style={styles.paidButton}>
+        <Pressable style={styles.paidButton} onPress={markInvoicePaid}>
           <Text style={styles.whiteText}>Mark as Paid</Text>
         </Pressable>
       </View>
+      <DeleteModal visible={showModal} setVisible={setShowModal}/>
     </>
   )
 }
