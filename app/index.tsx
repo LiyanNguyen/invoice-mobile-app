@@ -1,36 +1,45 @@
-import { View, StyleSheet, FlatList } from "react-native"
+import { View, StyleSheet, FlatList, Text, ActivityIndicator } from "react-native"
 import InvoiceBar from "../components/InvoiceBar"
 import InvoiceCard from "../components/InvoiceCard"
-import fakeData from '../data/data.json'
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import InvoiceEmpty from "../components/InvoiceEmpty"
 import supabase from "../config/supabase"
+import InvoiceLoading from "../components/InvoiceLoading"
 
 const Home = () => {
+  const [invoices, setInvoices] = useState<any | undefined>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  // const GET_Notes = async () => {
-  //   const { data, error } = await supabase
-  //     .from('Note')
-  //     .select()
+  useEffect(() => {
+    const GET_Invoices = async () => {
+      const { data, error } = await supabase
+        .from('Invoice')
+        .select('id, payment_due, Client (name), status, invoice_total')
 
-  //   // return { data, error }
-  //   console.log(data)
-  // }
+      if (data) { setInvoices(data); setIsLoading(false) }
+      if (error) { alert(error.message) }
+    }
 
-  // useEffect(() => {
-  //   GET_Notes()
-  // },[])
+    GET_Invoices()
+  },[])
 
   return (
     <View style={styles.container}>
       <InvoiceBar />
-      <FlatList
-        contentContainerStyle={styles.listContainer}
-        data={fakeData}
-        renderItem={({ item }) => <InvoiceCard id={item.id} clientName={item.client.name} paymentDue={item.payment_due} total={item.invoice_total} status={item.status} />}
-        keyExtractor={item => item.id}
-        ListEmptyComponent={InvoiceEmpty}
-      />
+      {isLoading ? <InvoiceLoading/> :
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={invoices}
+          keyExtractor={item => item.id}
+          ListEmptyComponent={InvoiceEmpty}
+          renderItem={({ item }) =>
+            <InvoiceCard
+              id={item.id} clientName={item.Client.name} paymentDue={item.payment_due}
+              total={item.invoice_total} status={item.status}
+            />
+          }
+        />
+      }
     </View>
   )
 }
