@@ -2,10 +2,25 @@ import { View, StyleSheet, FlatList } from "react-native"
 import InvoiceBar from "../components/InvoiceBar"
 import InvoiceCard from "../components/InvoiceCard"
 import fakeData from '../data/data.json'
-import React from "react"
+import React, { useEffect } from "react"
 import InvoiceEmpty from "../components/InvoiceEmpty"
+import supabase from "../config/supabase"
 
 const Home = () => {
+
+  // const GET_Notes = async () => {
+  //   const { data, error } = await supabase
+  //     .from('Note')
+  //     .select()
+
+  //   // return { data, error }
+  //   console.log(data)
+  // }
+
+  // useEffect(() => {
+  //   GET_Notes()
+  // },[])
+
   return (
     <View style={styles.container}>
       <InvoiceBar />
