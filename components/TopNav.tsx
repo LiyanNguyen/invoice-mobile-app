@@ -9,7 +9,7 @@ const TopNav = () => {
         <Image style={styles.logo} source={require('../assets/images/logo.svg')} contentFit='contain' />
       </View>
       <View style={styles.topNav_RightSide}>
-        <Image source={require('../assets/images/icon-moon.svg')} />
+        <Image style={styles.themeSwitcherIcon} source={require('../assets/images/icon-moon.svg')} />
         <View style={styles.divider} />
         <Image style={styles.userAvatar} source={require('../assets/images/image-avatar.jpg')} />
       </View>
@@ -37,6 +37,9 @@ const styles = StyleSheet.create({
   },
   topNav_RightSide: {
     height: '100%', flexDirection: 'row', alignItems: 'center', gap: 24
+  },
+  themeSwitcherIcon: {
+    width: 20, height: 20
   },
   divider: {
     height: '100%', width: 1, backgroundColor: '#494E6E'

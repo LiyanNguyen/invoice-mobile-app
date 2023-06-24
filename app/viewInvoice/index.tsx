@@ -1,21 +1,17 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Image } from 'expo-image';
+import { useLocalSearchParams } from 'expo-router';
 import InvoiceStatus from '../../components/InvoiceStatus';
+import BackToHomeButton from '../../components/BackToHomeButton';
 
 const viewInvoice = () => {
-  const router = useRouter();
   const params = useLocalSearchParams();
   const { id } = params //id used to fetch GET entire data about a specific invoice
   
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.goBackContainer}>
-          <Image style={styles.arrowLeftIcon} source={require('../../assets/images/icon-arrow-left.svg')}/>
-          <Text onPress={() => router.push('/')} style={styles.blackText}>Go Back</Text>
-        </View>
+        <BackToHomeButton/>
         <ScrollView style={styles.infoCardsContainer}>
           <View style={styles.statusContainer}>
             <Text style={styles.statusText}>Status</Text>
@@ -100,9 +96,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, paddingTop: 32, paddingHorizontal:24
   },
-  goBackContainer: {
-    flexDirection: 'row', alignItems: 'center', gap: 24
-  },
   blackText: {
     color: '#0C0E16',
     fontWeight: '700',
@@ -117,9 +110,6 @@ const styles = StyleSheet.create({
     color: '#7E88C3',
     fontSize: 15,
     fontWeight: '700'
-  },
-  arrowLeftIcon: {
-    width: 9, height: 9
   },
   infoCardsContainer: {
     marginVertical: 32

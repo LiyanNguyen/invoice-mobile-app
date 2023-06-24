@@ -1,13 +1,13 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 
-type Props = {}
-
-const InvoiceBar = (props: Props) => {
-
+const InvoiceBar = () => {
+  const router = useRouter()
+  
   const addNew = () => {
-    console.log('add new')
+    router.push({ pathname: '/createInvoice' })
   }
 
   const openFilters = () => {
