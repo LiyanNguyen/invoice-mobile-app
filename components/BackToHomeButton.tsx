@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { Image } from 'expo-image';
+import { Image } from 'expo-image'
 import React from 'react'
-import { useRouter } from 'expo-router';
+import { useRouter } from 'expo-router'
 
 const BackToHomeButton = () => {
-  const router = useRouter();
+  const router = useRouter()
   
   return (
     <View style={styles.goBackContainer}>

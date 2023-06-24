@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
-import { Image } from 'expo-image';
+import { Image } from 'expo-image'
 
 const TopNav = () => {
   return (

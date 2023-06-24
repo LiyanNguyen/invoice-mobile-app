@@ -1,11 +1,11 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useLocalSearchParams } from 'expo-router';
-import InvoiceStatus from '../../components/InvoiceStatus';
-import BackToHomeButton from '../../components/BackToHomeButton';
+import { useLocalSearchParams } from 'expo-router'
+import InvoiceStatus from '../../components/InvoiceStatus'
+import BackToHomeButton from '../../components/BackToHomeButton'
 
 const viewInvoice = () => {
-  const params = useLocalSearchParams();
+  const params = useLocalSearchParams()
   const { id } = params //id used to fetch GET entire data about a specific invoice
   
   return (

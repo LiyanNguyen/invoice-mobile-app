@@ -5,15 +5,17 @@ type Props = {
   title: string
   value: string
   setValue: Dispatch<SetStateAction<string>>
-  placeholder: string
+  placeholder?: string
+  type?: 'text' | 'numeric' | 'email'
 }
 
 const Input = (props: Props) => {
-  const { title, value, setValue, placeholder } = props
+  const { title, value, setValue, placeholder, type } = props
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.labelText}>{title}</Text>
       <TextInput
+        inputMode={type}
         style={[styles.input, {fontWeight: value === '' ? '400' : '700'}]}
         onChangeText={setValue}
         value={value}
