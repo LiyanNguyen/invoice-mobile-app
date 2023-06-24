@@ -4,13 +4,7 @@ import BackToHomeButton from '../../components/BackToHomeButton'
 import Input from '../../components/Input'
 import InvoiceItem from '../../components/InvoiceItem'
 import { useRouter } from 'expo-router'
-
-type InvoiceItemProps =  {
-  name: string
-  quantity: string
-  price: string
-  total: string
-}
+import { Item } from '../../types'
 
 const createInvoice = () => {
   const router = useRouter()
@@ -32,7 +26,7 @@ const createInvoice = () => {
   const [projectDescription, setProjectDescription] = useState<string>('')
 
   // array of new invoice items
-  const [items, setItems] = useState<InvoiceItemProps[]>([
+  const [items, setItems] = useState<Item[]>([
     { name: '', quantity: '', price: '', total: '' },
   ])
 

@@ -1,18 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from './Input'
 import { Image } from 'expo-image'
-
-type InvoiceItemProps = {
-  name: string
-  quantity: string
-  price: string
-  total: string
-}
+import { Item } from '../types'
 
 type Props = {
   index: number
-  items: InvoiceItemProps[]
+  items: Item[]
   name: string
   quantity: string
   price: string
