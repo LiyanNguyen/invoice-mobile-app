@@ -3,7 +3,12 @@ import React from 'react'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 
-const InvoiceBar = () => {
+type Props = {
+  amount: number
+}
+
+const InvoiceBar = (props: Props) => {
+  const { amount } = props
   const router = useRouter()
   
   const addNew = () => {
@@ -19,7 +24,7 @@ const InvoiceBar = () => {
     <View style={styles.invoiceBar}>
       <View>
         <Text style={styles.invoiceText}>Invoices</Text>
-        <Text style={styles.amountInvoiceText}>7 Invoices</Text>
+        <Text style={styles.amountInvoiceText}>{amount} Invoices</Text>
       </View>
       <Pressable style={styles.filterButton} onPress={openFilters}>
         <Text style={styles.filterText}>Filter</Text>

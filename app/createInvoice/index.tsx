@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackToHomeButton from '../../components/BackToHomeButton'
 import Input from '../../components/Input'
 import InvoiceItem from '../../components/InvoiceItem'
@@ -10,16 +10,26 @@ import supabase from '../../config/supabase'
 
 const createInvoice = () => {
   const router = useRouter()
-  const randomInvoiceID = generateRandomInvoiceID()
-  const todayFormattedDate = getTodayDateFormatted()
+  const [randomInvoiceID, setRandomInvoiceID] = useState<string>('')
+  const [todayFormattedDate, setTodayFormattedDate] = useState<string>('')
 
-  console.log(randomInvoiceID)
-  
-  // Sender
-  const [streetAddress, setStreetAddress] = useState<string>('')
-  const [city, setCity] = useState<string>('')
-  const [postCode, setPostCode] = useState<string>('')
-  const [country, setCountry] = useState<string>('')
+  useEffect(() => {
+    setRandomInvoiceID(generateRandomInvoiceID())
+    setTodayFormattedDate(getTodayDateFormatted())
+  },[])
+
+  // Sender - the user
+  // this should be fetch GET from backend depending on login credentials
+  // but for the sake of simplicity, user data is hardcoded
+  const senderData = {
+    id: '5c58c942-c99b-4747-b93a-7c84cd532390',
+    name: 'John Harris',
+    email: 'johnharris@mail.com',
+    street: '19 Union Terrace',
+    city: 'London',
+    post_code: 'E1 3EZ',
+    country: 'United Kingdom'
+  }
 
   // Client
   const [clientName, setClientName] = useState<string>('')
@@ -35,12 +45,10 @@ const createInvoice = () => {
   const [projectDescription, setProjectDescription] = useState<string>('')
 
   // array of new invoice items
-  const [items, setItems] = useState<Item[]>([
-    { name: '', quantity: '', price: '', total: '' },
-  ])
+  const [items, setItems] = useState<Item[]>([])
 
   const addNewItem = () => {
-    setItems(prev => prev.concat({ name: '', quantity: '', price: '', total: '' }))
+    setItems(prev => prev.concat({ name: '', quantity: '', price: '', total: '', invoice_id: randomInvoiceID }))
     // setItems([...items, { name: '', quantity: '', price: '' }])
   }
 
@@ -53,7 +61,7 @@ const createInvoice = () => {
   }
 
   const saveSend = () => {
-    
+    const totalInvoice = items.reduce((total, item) => total + Number(item.total), 0)
 
     const POST_Invoice = async () => {
       const { data, error } = await supabase
@@ -65,18 +73,27 @@ const createInvoice = () => {
           description: projectDescription,
           payment_terms: Number(paymentTerms),
           status: 'pending',
-          sender_id: '5c58c942-c99b-4747-b93a-7c84cd532390', // hardcoded sender id for now
-          client_id: '76ca02b1-f20e-44c8-9701-c3872f185630', // hardcoded client id for now
-          invoice_total: 420.69, // hardcoded for now
+          sender_id: senderData.id,
+          // hardcoded client id for now, should be selected from a list
+          client_id: '76ca02b1-f20e-44c8-9701-c3872f185630', 
+          invoice_total: totalInvoice,
         })
       
-      console.log(data)
-      console.log(error)
+      if (error) alert(error.message)
+    }
+
+    const POST_Item = async () => {
+      const { data, error } = await supabase
+        .from('Item')
+        .insert(items)
+
+      if (error) alert(error.message)
     }
     
-    // FOR NOW JUST POST THE INVOICE DATA
-    if (invoiceDate !== '' && projectDescription !== '' && paymentTerms !== '') {
+    if (invoiceDate !== '' && projectDescription !== '' && paymentTerms !== '' && items.length > 0) {
       POST_Invoice()
+      .then(() => POST_Item())
+      .then(() => router.push('/'))
     }
   }
 
@@ -88,29 +105,31 @@ const createInvoice = () => {
         <ScrollView style={{ marginVertical: 24 }} contentContainerStyle={{ gap: 24 }}>
           <Text style={styles.IDText}><Text style={{ color: '#7E88C3' }}>#</Text>{randomInvoiceID}</Text>
           <Text style={styles.mainText}>Bill From</Text>
-          <Input title='Street Address' value={streetAddress} setValue={setStreetAddress} placeholder='19 Union Terrace' />
+          <Input title='Sender Name' placeholder={senderData.name} isEditable={false} />
+          <Input title='Sender Email' placeholder={senderData.email} isEditable={false} />
+          <Input title='Street Address' placeholder={senderData.street} isEditable={false} />
           <View style={styles.doubleInputContainer}>
-            <Input title='City' value={city} setValue={setCity} placeholder='London' />
-            <Input title='Post Code' value={postCode} setValue={setPostCode} placeholder='E1 3EZ' />
+            <Input title='City' placeholder={senderData.street} isEditable={false} />
+            <Input title='Post Code' placeholder={senderData.post_code} isEditable={false} />
           </View>
-          <Input title='Country' value={country} setValue={setCountry} placeholder='United Kingdom' />
+          <Input title='Country' placeholder={senderData.country} isEditable={false} />
           <Text style={styles.mainText}>Bill To</Text>
-          <Input title='Client Name' value={clientName} setValue={setClientName} placeholder='Alex Grim' />
-          <Input title='Client Email' value={clientEmail} setValue={setClientEmail} placeholder='alexgrim@mail.com' type='email' />
-          <Input title='Client Street Address' value={clientStreetAddress} setValue={setClientStreetAddress} placeholder='84 Church Way' />
+          <Input title='Client Name' value={clientName} setValue={setClientName} />
+          <Input title='Client Email' value={clientEmail} setValue={setClientEmail} type='email' />
+          <Input title='Client Street Address' value={clientStreetAddress} setValue={setClientStreetAddress} />
           <View style={styles.doubleInputContainer}>
-            <Input title='Client City' value={cleintCity} setValue={setCleintCity} placeholder='Bradford'/>
-            <Input title='Client Post Code' value={clientPostCode} setValue={setClientPostCode} placeholder='BD1 9PB' />
+            <Input title='Client City' value={cleintCity} setValue={setCleintCity} />
+            <Input title='Client Post Code' value={clientPostCode} setValue={setClientPostCode} />
           </View>
-          <Input title='Client Coutry' value={clientCountry} setValue={setClientCountry} placeholder='United Kingdom' />
+          <Input title='Client Coutry' value={clientCountry} setValue={setClientCountry} />
           <Text style={styles.mainText}>Other Details</Text>
-          <Input title='Invoice Date' value={invoiceDate} setValue={setInvoiceDate} placeholder='21-10-2021'/>
-          <Input title='Payment Terms' value={paymentTerms} setValue={setPaymentTerms} placeholder='Net 30 Days' />
-          <Input title='Project Description' value={projectDescription} setValue={setProjectDescription} placeholder='Graphic Design' />
+          <Input title='Invoice Date (YYYY-MM-DD)' value={invoiceDate} setValue={setInvoiceDate} />
+          <Input title='Payment Terms' value={paymentTerms} setValue={setPaymentTerms} />
+          <Input title='Project Description' value={projectDescription} setValue={setProjectDescription} />
           <Text style={styles.mainText}>Item List</Text>
           {items.map((item, index) => 
             <InvoiceItem
-              key={index} index={index} items={items}
+              key={index} index={index} items={items} setItems={setItems}
               name={item.name} quantity={item.quantity} price={item.price} total={item.total}
             />
           )}

@@ -3,6 +3,7 @@ export interface Item {
   quantity: string
   price: string
   total: string
+  invoice_id: string
 }
 
 export interface Client {

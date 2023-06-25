@@ -26,10 +26,9 @@ const DeleteModal = (props: Props) => {
         .eq('id', id)      
     }
     
-    DELETE_Invoice().then(() => {
-      setVisible(false)
-      router.push('/')
-    })
+    DELETE_Invoice()
+    .then(() => setVisible(false))
+    .then(() => router.push('/'))
   }
 
   return (

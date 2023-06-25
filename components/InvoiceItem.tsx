@@ -1,12 +1,14 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Input from './Input'
 import { Image } from 'expo-image'
 import { Item } from '../types'
+import { useRouter } from 'expo-router'
 
 type Props = {
   index: number
   items: Item[]
+  setItems: Dispatch<SetStateAction<Item[]>>
   name: string
   quantity: string
   price: string
@@ -14,7 +16,7 @@ type Props = {
 }
 
 const InvoiceItem = (props: Props) => {
-  const { index, items } = props
+  const { index, items, setItems } = props
   const [itemName, setItemName] = useState<string>(props.name)
   const [quantity, setQuantity] = useState<string>(props.quantity)
   const [price, setPrice] = useState<string>(props.price)
@@ -33,6 +35,12 @@ const InvoiceItem = (props: Props) => {
 
   }, [itemName, quantity, price, total])
 
+  const deleteThisItem = () => {
+    const copyOfItems = [...items]
+    copyOfItems.splice(index, 1)
+    setItems(copyOfItems)
+  }
+
   return (
     <View style={styles.container}>
       <Input title='Item Name' value={itemName} setValue={setItemName} />
@@ -43,7 +51,7 @@ const InvoiceItem = (props: Props) => {
           <Text style={styles.totalText}>Total</Text>
           <Text style={styles.total}>{total}</Text>
         </View>
-        <Pressable style={styles.deleteButton}>
+        <Pressable style={styles.deleteButton} onPress={deleteThisItem}>
           <Image style={styles.deleteIcon} source={require('../assets/images/icon-delete.svg')} />
         </Pressable>
       </View>

@@ -20,7 +20,7 @@ const Home = () => {
         `)
 
       if (data) { setInvoices(data); setIsLoading(false) }
-      if (error) { alert(error.message) }
+      if (error) alert(error.message)
     }
 
     GET_Invoices()
@@ -28,20 +28,22 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <InvoiceBar />
-      {isLoading ? <InvoiceLoading/> :
-        <FlatList
-          contentContainerStyle={styles.listContainer}
-          data={invoices}
-          keyExtractor={item => item.id}
-          ListEmptyComponent={InvoiceEmpty}
-          renderItem={({ item }) =>
-            <InvoiceCard
-              id={item.id} clientName={item.Client.name} paymentDue={item.payment_due}
-              total={item.invoice_total} status={item.status}
-            />
-          }
-        />
+      {isLoading ? <InvoiceLoading /> :
+        <>
+          <InvoiceBar amount={invoices.length} />
+          <FlatList
+            contentContainerStyle={styles.listContainer}
+            data={invoices}
+            keyExtractor={item => item.id}
+            ListEmptyComponent={InvoiceEmpty}
+            renderItem={({ item }) =>
+              <InvoiceCard
+                id={item.id} clientName={item.Client.name} paymentDue={item.payment_due}
+                total={item.invoice_total} status={item.status}
+              />
+            }
+          />
+        </>
       }
     </View>
   )

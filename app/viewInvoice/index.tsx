@@ -34,7 +34,7 @@ const viewInvoice = () => {
         setIsPaid(objectData.status === 'paid' ? true : false)
         setIsLoading(false)
       }
-      if (error) { alert(error.message) }
+      if (error) alert(error.message)
     }
 
     GET_Invoice_Detail(id as string)
@@ -118,19 +118,23 @@ const viewInvoice = () => {
           </ScrollView>
         }
       </View>
-      <View style={styles.bottomContainer}>
-        <Pressable style={styles.editButton}>
-          <Text style={styles.subText2}>Edit</Text>
-        </Pressable>
-        <Pressable style={styles.deleteButton} onPress={openDeleteModal}>
-          <Text style={styles.whiteText}>Delete</Text>
-        </Pressable>
-        <Pressable style={[styles.paidButton, { backgroundColor: isPaid ? '#9277FF' : '#7C5DFA' }]}
-          onPress={markInvoicePaid} disabled={isPaid}>
-          <Text style={styles.whiteText}>{isPaid? 'Already Paid' : 'Mark as Paid'}</Text>
-        </Pressable>
-      </View>
-      <DeleteModal visible={showModal} setVisible={setShowModal}/>
+      {invoiceData && 
+        <>
+          <View style={styles.bottomContainer}>
+            <Pressable style={styles.editButton}>
+              <Text style={styles.subText2}>Edit</Text>
+            </Pressable>
+            <Pressable style={styles.deleteButton} onPress={openDeleteModal}>
+              <Text style={styles.whiteText}>Delete</Text>
+            </Pressable>
+            <Pressable style={[styles.paidButton, { backgroundColor: isPaid ? '#9277FF' : '#7C5DFA' }]}
+              onPress={markInvoicePaid} disabled={isPaid}>
+              <Text style={styles.whiteText}>{isPaid? 'Already Paid' : 'Mark as Paid'}</Text>
+            </Pressable>
+          </View>
+          <DeleteModal visible={showModal} setVisible={setShowModal}/>
+        </>
+      }
     </>
   )
 }

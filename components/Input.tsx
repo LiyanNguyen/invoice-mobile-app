@@ -3,18 +3,20 @@ import React, { Dispatch, SetStateAction } from 'react'
 
 type Props = {
   title: string
-  value: string
-  setValue: Dispatch<SetStateAction<string>>
+  value?: string
+  setValue?: Dispatch<SetStateAction<string>>
   placeholder?: string
   type?: 'text' | 'numeric' | 'email'
+  isEditable?: boolean
 }
 
 const Input = (props: Props) => {
-  const { title, value, setValue, placeholder, type } = props
+  const { title, value, setValue, placeholder, type, isEditable } = props
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.labelText}>{title}</Text>
       <TextInput
+        editable={isEditable}
         inputMode={type}
         style={[styles.input, {fontWeight: value === '' ? '400' : '700'}]}
         onChangeText={setValue}
