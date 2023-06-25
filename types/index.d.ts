@@ -10,7 +10,7 @@ export interface Client {
   email: string
   street: string
   city: string
-  postCode: string
+  post_code: string
   country: string
 }
 
@@ -18,12 +18,14 @@ export interface Sender extends Client { }
 
 export interface Invoice {
   id: string
-  createdAt: string
-  paymentDue: string
+  status: 'pending' | 'paid' | 'draft'
   description: string
+  created_at: string
+  payment_due: string
+  invoice_total: number
   paymentTerms: number | 1 | 7 | 14 | 30
   total: number
-  client: Client
-  sender: Sender
-  items: Item[]
+  Client: Client
+  Sender: Sender
+  Item: Item[]
 }

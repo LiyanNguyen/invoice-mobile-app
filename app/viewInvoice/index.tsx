@@ -1,14 +1,44 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import InvoiceStatus from '../../components/InvoiceStatus'
 import BackToHomeButton from '../../components/BackToHomeButton'
 import DeleteModal from '../../components/DeleteModal'
 import { useLocalSearchParams } from 'expo-router'
+import supabase from '../../config/supabase'
+import InvoiceLoading from '../../components/InvoiceLoading'
+import { Invoice } from '../../types'
 
 const viewInvoice = () => {
   const params = useLocalSearchParams()
-  const { id } = params //id used to fetch GET entire data about a specific invoice and POST to mark as paid
+  const { id } = params //id of this specific Invoice
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [invoiceData, setInvoiceData] = useState<Invoice>()
+  const [isPaid, setIsPaid] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    const GET_Invoice_Detail = async (id: string) => {
+      const { data, error } = await supabase
+        .from('Invoice')
+        .select(`
+          id, status, description, created_at, payment_due, invoice_total,
+          Client (name, email, street, city, post_code, country),
+          Sender (street, city, post_code, country),
+          Item (name, quantity, price, total)
+        `)
+        .eq('id', id)
+
+      if (data) {
+        const objectData = data.at(0) as unknown as Invoice
+        setInvoiceData(objectData)
+        setIsPaid(objectData.status === 'paid' ? true : false)
+        setIsLoading(false)
+      }
+      if (error) { alert(error.message) }
+    }
+
+    GET_Invoice_Detail(id as string)
+  },[])
 
   const editInvoice = () => {
     console.log('Edit Invoice')
@@ -29,68 +59,65 @@ const viewInvoice = () => {
     <>
       <View style={styles.container}>
         <BackToHomeButton/>
-        <ScrollView style={styles.infoCardsContainer}>
+        {isLoading ? <InvoiceLoading /> : invoiceData &&
+          <ScrollView style={styles.infoCardsContainer}>
           <View style={styles.statusContainer}>
             <Text style={styles.statusText}>Status</Text>
-            <InvoiceStatus status='pending' />
+            <InvoiceStatus status={invoiceData.status} />
           </View>
           <View style={styles.infoContainer}>
             <View style={{gap: 4}}>
-              <Text style={styles.blackText}><Text style={{ color: '#7E88C3'}}>#</Text>XM9141</Text>
-              <Text style={styles.subText}>Graphic Design</Text>
+              <Text style={styles.blackText}><Text style={{ color: '#7E88C3' }}>#</Text>{invoiceData.id}</Text>
+              <Text style={styles.subText}>{invoiceData.description}</Text>
             </View>
             <View style={styles.senderInfoContainer}>
-              <Text style={styles.subText}>19 Union Terrace</Text>
-              <Text style={styles.subText}>London</Text>
-              <Text style={styles.subText}>E1 3EZ</Text>
-              <Text style={styles.subText}>United Kingdom</Text>
+              <Text style={styles.subText}>{invoiceData.Sender.street}</Text>
+              <Text style={styles.subText}>{invoiceData.Sender.city}</Text>
+              <Text style={styles.subText}>{invoiceData.Sender.post_code}</Text>
+              <Text style={styles.subText}>{invoiceData.Sender.country}</Text>
             </View>
             <View style={styles.billerInfoContainer}>
               <View style={{ gap: 32 }}>
                 <View style={{gap: 4}}>
                   <Text style={styles.subText}>Invoice Date</Text>
-                  <Text style={styles.blackText}>21 Aug 2021</Text>
+                  <Text style={styles.blackText}>{invoiceData.created_at}</Text>
                 </View>
                 <View style={{ gap: 4}}>
                   <Text style={styles.subText}>Payment Due</Text>
-                  <Text style={styles.blackText}>20 Sep 2021</Text>
+                  <Text style={styles.blackText}>{invoiceData.payment_due}</Text>
                 </View>
               </View>
               <View style={{gap: 4}}>
                 <Text style={styles.subText}>Bill To</Text>
-                <Text style={styles.blackText}>Alex Grim</Text>
-                <Text style={styles.subText}>84 Church Way</Text>
-                <Text style={styles.subText}>Bradford</Text>
-                <Text style={styles.subText}>BD1 9PB</Text>
-                <Text style={styles.subText}>United Kingdom</Text>
+                <Text style={styles.blackText}>{invoiceData.Client.name}</Text>
+                <Text style={styles.subText}>{invoiceData.Client.street}</Text>
+                <Text style={styles.subText}>{invoiceData.Client.city}</Text>
+                <Text style={styles.subText}>{invoiceData.Client.post_code}</Text>
+                <Text style={styles.subText}>{invoiceData.Client.country}</Text>
               </View>
             </View>
             <View style={{ marginTop: 32, gap: 4 }}>
               <Text style={styles.subText}>Sent to</Text>
-              <Text style={styles.blackText}>alexgrim@mail.com</Text>
+              <Text style={styles.blackText}>{invoiceData.Client.email}</Text>
             </View>
-            <View style={styles.itemsContainer}>
-              <View style={styles.item}>
-                <View>
-                  <Text style={styles.blackText}>Banner Design</Text>
-                  <Text style={styles.subText2}>1 x £ 156.00</Text>
-                </View>
-                <Text style={styles.blackText}>£ 156.00</Text>
-              </View>
-              <View style={styles.item}>
-                <View>
-                  <Text style={styles.blackText}>Email Design</Text>
-                  <Text style={styles.subText2}>2 x £ 200.00</Text>
-                </View>
-                <Text style={styles.blackText}>£ 400.00</Text>
-              </View>
+              <View style={styles.itemsContainer}>
+                {invoiceData.Item.map(item =>
+                  <View style={styles.item}>
+                    <View>
+                      <Text style={styles.blackText}>{item.name}</Text>
+                      <Text style={styles.subText2}>{item.quantity} x £ {item.price}</Text>
+                    </View>
+                    <Text style={styles.blackText}>£ {item.total}</Text>
+                  </View>
+                )}
             </View>
             <View style={styles.grandTotalContainer}>
               <Text style={styles.grandTotalText}>Grand Total</Text>
-              <Text style={styles.grandTotal}>£ 556.00</Text>
+              <Text style={styles.grandTotal}>£ {invoiceData.invoice_total}</Text>
             </View>
           </View>
-        </ScrollView>
+          </ScrollView>
+        }
       </View>
       <View style={styles.bottomContainer}>
         <Pressable style={styles.editButton}>
@@ -99,8 +126,9 @@ const viewInvoice = () => {
         <Pressable style={styles.deleteButton} onPress={openDeleteModal}>
           <Text style={styles.whiteText}>Delete</Text>
         </Pressable>
-        <Pressable style={styles.paidButton} onPress={markInvoicePaid}>
-          <Text style={styles.whiteText}>Mark as Paid</Text>
+        <Pressable style={[styles.paidButton, { backgroundColor: isPaid ? '#9277FF' : '#7C5DFA' }]}
+          onPress={markInvoicePaid} disabled={isPaid}>
+          <Text style={styles.whiteText}>{isPaid? 'Already Paid' : 'Mark as Paid'}</Text>
         </Pressable>
       </View>
       <DeleteModal visible={showModal} setVisible={setShowModal}/>
@@ -175,6 +203,6 @@ const styles = StyleSheet.create({
     color: 'white', fontSize: 15, fontWeight: '700'
   },
   paidButton: {
-    width: 149, height: 48, alignItems: 'center', justifyContent: 'center', borderRadius: 24, backgroundColor: '#7C5DFA'
+    width: 149, height: 48, alignItems: 'center', justifyContent: 'center', borderRadius: 24
   },
 })

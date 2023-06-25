@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 type Props = {
-  status: string | 'paid' | 'pending' | 'draft'
+  status: 'paid' | 'pending' | 'draft'
 }
 
 const InvoiceStatus = (props: Props) => {
