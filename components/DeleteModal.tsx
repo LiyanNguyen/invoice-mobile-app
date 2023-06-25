@@ -1,6 +1,6 @@
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { Dispatch, SetStateAction } from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 
 type Props = {
   visible: boolean
@@ -8,17 +8,20 @@ type Props = {
 }
 
 const DeleteModal = (props: Props) => {
-  const params = useLocalSearchParams()
-  const { id } = params //id used to fetch GET entire data about a specific invoice
-  
   const { visible, setVisible } = props
+  const params = useLocalSearchParams()
+  const router = useRouter()
+  const { id } = params // id of this specific Invoice
 
   const closeThisModal = () => {
     setVisible(false)
   }
 
   const deleteInvoice = () => {
-    console.log('confirm Delete',id) //DELETE HTTP to backend
+    console.log('confirm Delete', id)
+     //DELETE HTTP to backend
+    setVisible(false)
+    router.push('/')
   }
 
   return (
@@ -30,7 +33,7 @@ const DeleteModal = (props: Props) => {
       <View style={styles.backDrop}>
         <View style={styles.modalContainer} >
           <Text style={styles.headerText}>Confirm Deletion</Text>
-          <Text style={styles.subText}>Are you sure you want to delete invoice #XM9141? This action cannot be undone.</Text>
+          <Text style={styles.subText}>Are you sure you want to delete invoice <Text style={styles.idText}>#{id}</Text> ? This action cannot be undone.</Text>
           <View style={styles.buttonsContainer}>
             <Pressable style={styles.cancelButton} onPress={closeThisModal}>
               <Text style={styles.cancelText}>Cancel</Text>
@@ -71,6 +74,9 @@ const styles = StyleSheet.create({
     color: '#888EB0',
     fontWeight: '500',
     fontSize: 13
+  },
+  idText: {
+    fontWeight: '700', color: '#0C0E16'
   },
   buttonsContainer: {
     flexDirection: 'row', alignSelf: 'flex-end', gap: 8, marginTop: 20

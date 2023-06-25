@@ -10,7 +10,7 @@ import { Invoice } from '../../types'
 
 const viewInvoice = () => {
   const params = useLocalSearchParams()
-  const { id } = params //id of this specific Invoice
+  const { id } = params // id of this specific Invoice
   const [showModal, setShowModal] = useState<boolean>(false)
   const [invoiceData, setInvoiceData] = useState<Invoice>()
   const [isPaid, setIsPaid] = useState<boolean>(false)

@@ -14,7 +14,10 @@ const Home = () => {
     const GET_Invoices = async () => {
       const { data, error } = await supabase
         .from('Invoice')
-        .select('id, payment_due, Client (name), status, invoice_total')
+        .select(`
+          id, payment_due, status, invoice_total,
+          Client (name)
+        `)
 
       if (data) { setInvoices(data); setIsLoading(false) }
       if (error) { alert(error.message) }

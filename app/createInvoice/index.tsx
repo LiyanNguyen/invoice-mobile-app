@@ -5,15 +5,19 @@ import Input from '../../components/Input'
 import InvoiceItem from '../../components/InvoiceItem'
 import { useRouter } from 'expo-router'
 import { Item } from '../../types'
+import { generateRandomInvoiceID, getTodayDateFormatted } from '../../utils'
+import supabase from '../../config/supabase'
 
 const createInvoice = () => {
   const router = useRouter()
   
+  // Sender
   const [streetAddress, setStreetAddress] = useState<string>('')
   const [city, setCity] = useState<string>('')
   const [postCode, setPostCode] = useState<string>('')
   const [country, setCountry] = useState<string>('')
 
+  // Client
   const [clientName, setClientName] = useState<string>('')
   const [clientEmail, setClientEmail] = useState<string>('')
   const [clientStreetAddress, setClientStreetAddress] = useState<string>('')
@@ -21,6 +25,7 @@ const createInvoice = () => {
   const [clientPostCode, setClientPostCode] = useState<string>('')
   const [clientCountry, setClientCountry] = useState<string>('')
   
+  // Invoice
   const [invoiceDate, setInvoiceDate] = useState<string>('')
   const [paymentTerms, setPaymentTerms] = useState<string>('')
   const [projectDescription, setProjectDescription] = useState<string>('')
@@ -44,8 +49,32 @@ const createInvoice = () => {
   }
 
   const saveSend = () => {
-    console.log('Save Send')
-    console.log(items) // data to be POST to backend
+    const randomInvoiceID = generateRandomInvoiceID()
+    const todayFormattedDate = getTodayDateFormatted()
+
+    const POST_Invoice = async () => {
+      const { data, error } = await supabase
+        .from('Invoice')
+        .insert({
+          id: randomInvoiceID,
+          created_at: todayFormattedDate,
+          payment_due: invoiceDate,
+          description: projectDescription,
+          payment_terms: Number(paymentTerms),
+          status: 'pending',
+          sender_id: '5c58c942-c99b-4747-b93a-7c84cd532390', // hardcoded sender id for now
+          client_id: '76ca02b1-f20e-44c8-9701-c3872f185630', // hardcoded client id for now
+          invoice_total: 420.69, // hardcoded for now
+        })
+      
+      console.log(data)
+      console.log(error)
+    }
+    
+    // FOR NOW JUST POST THE INVOICE DATA
+    if (invoiceDate !== '' && projectDescription !== '' && paymentTerms !== '') {
+      POST_Invoice()
+    }
   }
 
   return (
@@ -71,7 +100,7 @@ const createInvoice = () => {
           </View>
           <Input title='Client Coutry' value={clientCountry} setValue={setClientCountry} placeholder='United Kingdom' />
           <Text style={styles.mainText}>Other Details</Text>
-          <Input title='Invoice Date' value={invoiceDate} setValue={setInvoiceDate} placeholder='21 Aug 2021'/>
+          <Input title='Invoice Date' value={invoiceDate} setValue={setInvoiceDate} placeholder='21-10-2021'/>
           <Input title='Payment Terms' value={paymentTerms} setValue={setPaymentTerms} placeholder='Net 30 Days' />
           <Input title='Project Description' value={projectDescription} setValue={setProjectDescription} placeholder='Graphic Design' />
           <Text style={styles.mainText}>Item List</Text>
