@@ -1,6 +1,7 @@
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { Dispatch, SetStateAction } from 'react'
 import { useLocalSearchParams, useRouter } from 'expo-router'
+import supabase from '../config/supabase'
 
 type Props = {
   visible: boolean
@@ -18,10 +19,17 @@ const DeleteModal = (props: Props) => {
   }
 
   const deleteInvoice = () => {
-    console.log('confirm Delete', id)
-     //DELETE HTTP to backend
-    setVisible(false)
-    router.push('/')
+    const DELETE_Invoice = async () => {
+      const { data, error } = await supabase
+        .from('Invoice')
+        .delete()
+        .eq('id', id)      
+    }
+    
+    DELETE_Invoice().then(() => {
+      setVisible(false)
+      router.push('/')
+    })
   }
 
   return (
@@ -33,7 +41,7 @@ const DeleteModal = (props: Props) => {
       <View style={styles.backDrop}>
         <View style={styles.modalContainer} >
           <Text style={styles.headerText}>Confirm Deletion</Text>
-          <Text style={styles.subText}>Are you sure you want to delete invoice <Text style={styles.idText}>#{id}</Text> ? This action cannot be undone.</Text>
+          <Text style={styles.subText}>Are you sure you want to delete invoice <Text style={styles.IDText}>#{id}</Text> ? This action cannot be undone.</Text>
           <View style={styles.buttonsContainer}>
             <Pressable style={styles.cancelButton} onPress={closeThisModal}>
               <Text style={styles.cancelText}>Cancel</Text>
@@ -75,8 +83,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 13
   },
-  idText: {
-    fontWeight: '700', color: '#0C0E16'
+  IDText: {
+    fontSize: 15, color: '#0C0E16', fontWeight: '700'
   },
   buttonsContainer: {
     flexDirection: 'row', alignSelf: 'flex-end', gap: 8, marginTop: 20

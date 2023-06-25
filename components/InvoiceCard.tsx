@@ -8,7 +8,7 @@ type Props = {
   clientName: string
   paymentDue: string
   total: number
-  status: string | 'paid' | 'pending' | 'draft'
+  status: 'paid' | 'pending' | 'draft'
 }
 
 const InvoiceCard = (props: Props) => {

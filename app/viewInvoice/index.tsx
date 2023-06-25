@@ -47,7 +47,6 @@ const viewInvoice = () => {
 
   const openDeleteModal = () => {
     setShowModal(true)
-    console.log('Edit Invoice')
   }
 
   const markInvoicePaid = () => {

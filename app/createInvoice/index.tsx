@@ -10,6 +10,10 @@ import supabase from '../../config/supabase'
 
 const createInvoice = () => {
   const router = useRouter()
+  const randomInvoiceID = generateRandomInvoiceID()
+  const todayFormattedDate = getTodayDateFormatted()
+
+  console.log(randomInvoiceID)
   
   // Sender
   const [streetAddress, setStreetAddress] = useState<string>('')
@@ -49,8 +53,7 @@ const createInvoice = () => {
   }
 
   const saveSend = () => {
-    const randomInvoiceID = generateRandomInvoiceID()
-    const todayFormattedDate = getTodayDateFormatted()
+    
 
     const POST_Invoice = async () => {
       const { data, error } = await supabase
@@ -83,6 +86,7 @@ const createInvoice = () => {
         <BackToHomeButton />
         <Text style={styles.headerText}>New Invoice</Text>
         <ScrollView style={{ marginVertical: 24 }} contentContainerStyle={{ gap: 24 }}>
+          <Text style={styles.IDText}><Text style={{ color: '#7E88C3' }}>#</Text>{randomInvoiceID}</Text>
           <Text style={styles.mainText}>Bill From</Text>
           <Input title='Street Address' value={streetAddress} setValue={setStreetAddress} placeholder='19 Union Terrace' />
           <View style={styles.doubleInputContainer}>
@@ -135,6 +139,9 @@ export default createInvoice
 const styles = StyleSheet.create({
   container: {
     flex: 1, paddingTop: 32, paddingHorizontal: 24, backgroundColor: 'white'
+  },
+  IDText: {
+    fontSize: 15, color: '#0C0E16', fontWeight: '700'
   },
   headerText: {
     color: '#0C0E16',
