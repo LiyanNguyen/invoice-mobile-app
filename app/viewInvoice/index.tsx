@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import InvoiceStatus from '../../components/InvoiceStatus'
 import BackToHomeButton from '../../components/BackToHomeButton'
 import DeleteModal from '../../components/DeleteModal'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import supabase from '../../config/supabase'
 import InvoiceLoading from '../../components/InvoiceLoading'
 import { Invoice } from '../../types'
@@ -15,6 +15,7 @@ const viewInvoice = () => {
   const [invoiceData, setInvoiceData] = useState<Invoice>()
   const [isPaid, setIsPaid] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const router = useRouter()
 
   useEffect(() => {
     const GET_Invoice_Detail = async (id: string) => {
@@ -50,8 +51,17 @@ const viewInvoice = () => {
   }
 
   const markInvoicePaid = () => {
-    // use id to POST to backend as 'paid' status
-    console.log('Invoice Paid', id)
+    const PUT_InvoicePaid = async () => {
+      const { data, error } = await supabase
+        .from('Invoice')
+        .update({ status: 'paid' })
+        .eq('id', id)
+
+      if (error) alert(error.message)
+    }
+
+    PUT_InvoicePaid()
+    .then(() => router.push('/'))
   }
   
   return (
