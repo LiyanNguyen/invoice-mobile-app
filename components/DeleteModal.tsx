@@ -23,7 +23,7 @@ const DeleteModal = (props: Props) => {
       const { data, error } = await supabase
         .from('Invoice')
         .delete()
-        .eq('id', id)      
+        .eq('id', id)
     }
     
     DELETE_Invoice()
