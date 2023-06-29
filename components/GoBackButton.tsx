@@ -3,18 +3,18 @@ import { Image } from 'expo-image'
 import React from 'react'
 import { useRouter } from 'expo-router'
 
-const BackToHomeButton = () => {
+const GoBackButton = () => {
   const router = useRouter()
   
   return (
     <View style={styles.goBackContainer}>
       <Image style={styles.arrowLeftIcon} source={require('../assets/images/icon-arrow-left.svg')} />
-      <Text onPress={() => router.push('/')} style={styles.blackText}>Go Back</Text>
+      <Text onPress={() => router.back()} style={styles.blackText}>Go Back</Text>
     </View>
   )
 }
 
-export default BackToHomeButton
+export default GoBackButton
 
 const styles = StyleSheet.create({
   goBackContainer: {
@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   arrowLeftIcon: {
-    width: 9, height: 9
+    width: 8, height: 8
   },
 })

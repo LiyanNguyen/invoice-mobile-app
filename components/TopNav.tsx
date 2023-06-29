@@ -1,8 +1,14 @@
-import { StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { Image } from 'expo-image'
+import { useRouter } from 'expo-router'
 
 const TopNav = () => {
+  const router = useRouter()
+
+  const goToSettings = () => {
+    router.push('/settings')
+  }
   return (
     <View style={styles.topNav}>
       <View style={styles.logoContainer}>
@@ -11,7 +17,9 @@ const TopNav = () => {
       <View style={styles.topNav_RightSide}>
         <Image style={styles.themeSwitcherIcon} source={require('../assets/images/icon-moon.svg')} />
         <View style={styles.divider} />
-        <Image style={styles.userAvatar} source={require('../assets/images/image-avatar.jpg')} />
+        <Pressable onPress={goToSettings}>
+          <Image style={styles.userAvatar} source={require('../assets/images/image-avatar.jpg')} />
+        </Pressable>
       </View>
     </View>
   )

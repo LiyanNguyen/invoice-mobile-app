@@ -1,12 +1,14 @@
-import { ScrollView, StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import BackToHomeButton from '../../components/BackToHomeButton'
+import GoBackButton from '../../components/GoBackButton'
 import Input from '../../components/Input'
 import InvoiceItem from '../../components/InvoiceItem'
 import { useRouter } from 'expo-router'
 import { Item } from '../../types'
 import { generateRandomInvoiceID, getTodayDateFormatted } from '../../utils'
 import supabase from '../../config/supabase'
+import { userData } from '../../data'
+import { Image } from 'expo-image'
 
 const createInvoice = () => {
   const router = useRouter()
@@ -17,19 +19,6 @@ const createInvoice = () => {
     setRandomInvoiceID(generateRandomInvoiceID())
     setTodayFormattedDate(getTodayDateFormatted())
   },[])
-
-  // Sender - the user
-  // this should be fetch GET from backend depending on login credentials
-  // but for the sake of simplicity, user data is hardcoded
-  const senderData = {
-    id: '5c58c942-c99b-4747-b93a-7c84cd532390',
-    name: 'John Harris',
-    email: 'johnharris@mail.com',
-    street: '19 Union Terrace',
-    city: 'London',
-    post_code: 'E1 3EZ',
-    country: 'United Kingdom'
-  }
 
   // Client
   const [clientName, setClientName] = useState<string>('')
@@ -46,6 +35,10 @@ const createInvoice = () => {
 
   // array of new invoice items
   const [items, setItems] = useState<Item[]>([])
+
+  const goToSettings = () => {
+    router.push('/settings')
+  }
 
   const addNewItem = () => {
     setItems(prev => prev.concat({ name: '', quantity: '', price: '', total: '', invoice_id: randomInvoiceID }))
@@ -73,7 +66,7 @@ const createInvoice = () => {
           description: projectDescription,
           payment_terms: Number(paymentTerms),
           status: 'pending',
-          sender_id: senderData.id,
+          sender_id: userData.id,
           // hardcoded client id for now, should be selected from a list
           client_id: '76ca02b1-f20e-44c8-9701-c3872f185630', 
           invoice_total: totalInvoice,
@@ -100,20 +93,36 @@ const createInvoice = () => {
   return (
     <>
       <View style={styles.container}>
-        <BackToHomeButton />
+        <GoBackButton />
         <Text style={styles.headerText}>New Invoice</Text>
         <ScrollView style={{ marginVertical: 24 }} contentContainerStyle={{ gap: 24 }}>
           <Text style={styles.IDText}><Text style={{ color: '#7E88C3' }}>#</Text>{randomInvoiceID}</Text>
-          <Text style={styles.mainText}>Bill From</Text>
-          <Input title='Sender Name' placeholder={senderData.name} isEditable={false} />
-          <Input title='Sender Email' placeholder={senderData.email} isEditable={false} />
-          <Input title='Street Address' placeholder={senderData.street} isEditable={false} />
-          <View style={styles.doubleInputContainer}>
-            <Input title='City' placeholder={senderData.street} isEditable={false} />
-            <Input title='Post Code' placeholder={senderData.post_code} isEditable={false} />
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.mainText}>Bill From</Text>
+            <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
+              <Pressable onPress={goToSettings}>
+                <Text style={styles.mainTextBlack}>Edit in Settings</Text>
+              </Pressable>
+              <Image style={styles.icons} source={require('../../assets/images/icon-arrow-right.svg')} />
+            </View>
           </View>
-          <Input title='Country' placeholder={senderData.country} isEditable={false} />
-          <Text style={styles.mainText}>Bill To</Text>
+          <View style={styles.userInfoContainer}>
+            <Text style={styles.subText}>{userData.name}</Text>
+            <Text style={styles.subText}>{userData.email}</Text>
+            <Text style={styles.subText}>{userData.street}</Text>
+            <View style={{flexDirection: 'row', gap: 8}}>
+              <Text style={styles.subText}>{userData.city}</Text>
+              <Text style={styles.subText}>{userData.post_code}</Text>
+            </View>
+            <Text style={styles.subText}>{userData.country}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={styles.mainText}>Bill To</Text>
+            <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center' }}>
+              <Image style={styles.icons} source={require('../../assets/images/icon-plus.svg')} />
+              <Text style={styles.mainTextBlack}>Create New Client</Text>
+            </View>
+          </View>
           <Input title='Client Name' value={clientName} setValue={setClientName} />
           <Input title='Client Email' value={clientEmail} setValue={setClientEmail} type='email' />
           <Input title='Client Street Address' value={clientStreetAddress} setValue={setClientStreetAddress} />
@@ -122,7 +131,7 @@ const createInvoice = () => {
             <Input title='Client Post Code' value={clientPostCode} setValue={setClientPostCode} />
           </View>
           <Input title='Client Coutry' value={clientCountry} setValue={setClientCountry} />
-          <Text style={styles.mainText}>Other Details</Text>
+          <Text style={styles.mainText}>Invoice Details</Text>
           <Input title='Invoice Date (YYYY-MM-DD)' value={invoiceDate} setValue={setInvoiceDate} />
           <Input title='Payment Terms' value={paymentTerms} setValue={setPaymentTerms} />
           <Input title='Project Description' value={projectDescription} setValue={setProjectDescription} />
@@ -173,6 +182,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
   },
+  mainTextBlack: {
+    color: '#0C0E16',
+    fontSize: 13,
+    fontWeight: '500',
+  },
   doubleInputContainer: {
     flexDirection: 'row', gap: 24
   },
@@ -190,6 +204,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
   },
+  subText: {
+    color: '#7E88C3',
+    fontSize: 13,
+    fontWeight: '500',
+  },
   saveDraftButton: {
     backgroundColor: '#373B53', width: 117, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center'
   },
@@ -205,5 +224,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     fontWeight: '700',
+  },
+  userInfoContainer: {
+    gap: 8
+  },
+  icons: {
+    width: 8, height: 8
   },
 })

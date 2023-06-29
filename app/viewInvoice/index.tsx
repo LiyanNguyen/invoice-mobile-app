@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import InvoiceStatus from '../../components/InvoiceStatus'
-import BackToHomeButton from '../../components/BackToHomeButton'
+import GoBackButton from '../../components/GoBackButton'
 import DeleteModal from '../../components/DeleteModal'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import supabase from '../../config/supabase'
@@ -42,8 +42,7 @@ const viewInvoice = () => {
   },[])
 
   const editInvoice = () => {
-    console.log('Edit Invoice')
-    // route to editinvoice page
+    router.push({ pathname: '/editInvoice', params: { id: id } })
   }
 
   const openDeleteModal = () => {
@@ -67,7 +66,7 @@ const viewInvoice = () => {
   return (
     <>
       <View style={styles.container}>
-        <BackToHomeButton/>
+        <GoBackButton/>
         {isLoading ? <InvoiceLoading /> : invoiceData &&
           <ScrollView style={styles.infoCardsContainer}>
           <View style={styles.statusContainer}>
@@ -111,7 +110,7 @@ const viewInvoice = () => {
             </View>
               <View style={styles.itemsContainer}>
                 {invoiceData.Item.map(item =>
-                  <View style={styles.item}>
+                  <View key={item.name} style={styles.item}>
                     <View>
                       <Text style={styles.blackText}>{item.name}</Text>
                       <Text style={styles.subText2}>{item.quantity} x £ {item.price}</Text>
@@ -131,7 +130,7 @@ const viewInvoice = () => {
       {invoiceData && 
         <>
           <View style={styles.bottomContainer}>
-            <Pressable style={styles.editButton}>
+            <Pressable style={styles.editButton} onPress={editInvoice}>
               <Text style={styles.subText2}>Edit</Text>
             </Pressable>
             <Pressable style={styles.deleteButton} onPress={openDeleteModal}>
