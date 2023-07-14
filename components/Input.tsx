@@ -8,18 +8,21 @@ type Props = {
   placeholder?: string
   type?: 'text' | 'numeric' | 'email'
   isEditable?: boolean
+  isPassword?: boolean 
 }
 
 const Input = (props: Props) => {
-  const { title, value, setValue, placeholder, type, isEditable } = props
+  const { title, value, setValue, placeholder, type, isEditable, isPassword = false  } = props
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.labelText}>{title}</Text>
       <TextInput
+        secureTextEntry={isPassword}
         editable={isEditable}
         inputMode={type}
         style={[styles.input, {fontWeight: value === '' ? '400' : '700'}]}
         onChangeText={setValue}
+        defaultValue={value}
         value={value}
         placeholder={placeholder}
       />

@@ -11,11 +11,7 @@ const editInvoice = () => {
   return (
     <View style={styles.container}>
       <GoBackButton />
-      <Text>editInvoice with the id of {id}</Text>
-
-      <Pressable onPress={() => router.push('/')}>
-        <Text>Go back to Home</Text>
-      </Pressable>
+      <Text>editInvoice with the id of {id} - WIP</Text>
     </View>
   )
 }

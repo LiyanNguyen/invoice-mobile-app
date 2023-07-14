@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import GoBackButton from '../../components/GoBackButton'
 import Input from '../../components/Input'
 import InvoiceItem from '../../components/InvoiceItem'
-import { useRouter } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { Item } from '../../types'
 import { generateRandomInvoiceID, getTodayDateFormatted } from '../../utils'
 import supabase from '../../config/supabase'
@@ -35,10 +35,6 @@ const createInvoice = () => {
 
   // array of new invoice items
   const [items, setItems] = useState<Item[]>([])
-
-  const goToSettings = () => {
-    router.push('/settings')
-  }
 
   const addNewItem = () => {
     setItems(prev => prev.concat({ name: '', quantity: '', price: '', total: '', invoice_id: randomInvoiceID }))
@@ -100,9 +96,7 @@ const createInvoice = () => {
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.mainText}>Bill From</Text>
             <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-              <Pressable onPress={goToSettings}>
-                <Text style={styles.mainTextBlack}>Edit in Settings</Text>
-              </Pressable>
+              <Link href='/settings' style={styles.mainTextBlack}>Edit in Settings</Link>
               <Image style={styles.icons} source={require('../../assets/images/icon-arrow-right.svg')} />
             </View>
           </View>
@@ -120,7 +114,7 @@ const createInvoice = () => {
             <Text style={styles.mainText}>Bill To</Text>
             <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center' }}>
               <Image style={styles.icons} source={require('../../assets/images/icon-plus.svg')} />
-              <Text style={styles.mainTextBlack}>Create New Client</Text>
+              <Link href='/createClient' style={styles.mainTextBlack}>Create New Client</Link>
             </View>
           </View>
           <Input title='Client Name' value={clientName} setValue={setClientName} />
